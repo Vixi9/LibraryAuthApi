@@ -5,14 +5,14 @@ import fr.ensicaen.ensibrary.libraryauthapi.exception.UserNotFoundException;
 import fr.ensicaen.ensibrary.libraryauthapi.model.UserDTO;
 import fr.ensicaen.ensibrary.libraryauthapi.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-@Controller
-@RequestMapping(value = "/user")
+@RestController
+@RequestMapping(value = "user")
 public class UserController {
 
     private final UserService userService;
@@ -21,13 +21,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<User> getAll() {
         return userService.getAll();
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getById(@RequestParam Long id) {
+    public ResponseEntity<Object> getById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(userService.get(id));
         } catch (UserNotFoundException e) {
@@ -47,8 +47,18 @@ public class UserController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody UserDTO user) {
         try {
-            return ResponseEntity.ok().body(userService.update(id, user));
+            return ResponseEntity.ok(userService.update(id, user));
         } catch (IllegalArgumentException | UserNotFoundException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+        try {
+            userService.delete(id);
+            return ResponseEntity.ok(null);
+        } catch (UserNotFoundException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         }
     }
