@@ -8,10 +8,10 @@ public class Privilege {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
+    @Column()
     private Long id;
 
-    @Column(name = "name")
+    @Column()
     private String name;
 
     @ManyToMany(mappedBy = "privileges")
