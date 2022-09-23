@@ -56,4 +56,12 @@ public class UserService {
         newUser.setLastName(user.getLastName());
         return userRepository.save(newUser);
     }
+
+    public void delete(Long id) throws UserNotFoundException {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+        } else {
+            throw new UserNotFoundException(id);
+        }
+    }
 }
