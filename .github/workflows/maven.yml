@@ -19,8 +19,6 @@ jobs:
           MYSQL_DATABASE: ensibrary_auth
         ports:
           - "3306:3306"
-        volumes:
-          - api-auth-db:/var/lib/mysql
 
     steps:
       - uses: actions/checkout@v3
