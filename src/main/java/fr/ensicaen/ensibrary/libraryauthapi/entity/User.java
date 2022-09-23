@@ -1,5 +1,7 @@
 package fr.ensicaen.ensibrary.libraryauthapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -12,16 +14,20 @@ public class User {
     @Column()
     private Long id;
 
-    @Column()
+    @Column(nullable = false)
     private String email;
 
-    @Column()
+    @Column(name = "FIRST_NAME", nullable = false)
     private String firstName;
 
-    @Column()
+    @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
 
+    @Column()
+    private boolean enabled;
+
     @ManyToMany
+    @JsonIgnoreProperties("users")
     @JoinTable(
             name = "USER_ROLES",
             joinColumns = @JoinColumn(
@@ -68,5 +74,13 @@ public class User {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
