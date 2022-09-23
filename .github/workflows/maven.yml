@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Setup MySQL
-      - uses: mirromutth/mysql-action@v1.1
+        uses: mirromutth/mysql-action@v1.1
         with:
           mysql database: 'ensibrary_auth'
           mysql root password: ${{ secrets.MYSQL_ROOT_PASSWORD }}
