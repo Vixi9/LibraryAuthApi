@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>fr.ensicaen.ensibrary</groupId>
-    <artifactId>LibraryAuthApi</artifactId>
+    <artifactId>library_auth_api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>LibraryAuthApi</name>
     <description>LibraryAuthApi</description>

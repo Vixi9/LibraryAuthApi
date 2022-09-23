@@ -1,0 +1,29 @@
+services:
+  #Database
+  api-auth-db:
+    image: mysql:latest
+    container_name: api-auth-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DATABASE=ensibrary_auth
+    ports:
+      - "3306:3306"
+    volumes:
+      - api-auth-db:/var/lib/mysql
+
+  #Authentication API
+  api-auth:
+    image: libraryauthapi:latest
+    container_name: api-auth
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    volumes:
+      - .m2:/root/.m2
+    depends_on:
+      - api-auth-db
+
+volumes:
+  api-auth-db:
