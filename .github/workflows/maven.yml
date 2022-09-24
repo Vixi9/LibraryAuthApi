@@ -16,11 +16,11 @@ jobs:
         image: mysql:latest
         env:
           MYSQL_DATABASE: ensibrary_auth
-          MYSQL_USER: admin
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
         ports:
           - 3306:3306
+        volumes:
+          - api-auth-db:/var/lib/mysql
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
