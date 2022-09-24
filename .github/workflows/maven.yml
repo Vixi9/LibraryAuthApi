@@ -30,6 +30,4 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        env:
-          MYSQL_ROOT_PASSWORD: toto
-        run: mvn -B package --file pom.xml
+        run: mvn -B package --file pom.xml -DMYSQL_ROOT_PASSWORD=toto
