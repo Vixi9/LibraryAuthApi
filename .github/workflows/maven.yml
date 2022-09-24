@@ -16,7 +16,7 @@ jobs:
         image: mysql:latest
         env:
           MYSQL_DATABASE: ensibrary_auth
-          MYSQL_ROOT_PASSWORD: toto
+          MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -31,5 +31,5 @@ jobs:
           cache: maven
       - name: Build with Maven
         env:
-          MYSQL_ROOT_PASSWORD: toto
+          MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
         run: mvn -B package --file pom.xml
