@@ -4,29 +4,32 @@ services:
     image: mysql:latest
     container_name: api-auth-db
     environment:
+      - MYSQL_ROOT_PASSWORD=toto
       - MYSQL_DATABASE=ensibrary_auth
-    env_file:
-      - .env
     ports:
       - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     volumes:
       - api-auth-db:/var/lib/mysql
 
-  #Authentication API
+
+      #Authentication API
   api-auth:
     image: libraryauthapi:latest
     container_name: api-auth
     build:
       context: .
       dockerfile: Dockerfile
-    env_file:
-      - .env
     ports:
       - "9000:9000"
     volumes:
       - .m2:/root/.m2
     depends_on:
-      - api-auth-db
+      api-auth-db:
+        condition: service_healthy
 
 volumes:
   api-auth-db:
