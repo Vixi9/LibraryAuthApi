@@ -10,6 +10,8 @@ public class UserDTO {
 
     private String email;
 
+    private String password;
+
     public String getFirstName() {
         return firstName;
     }
@@ -22,11 +24,15 @@ public class UserDTO {
         return email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public User toEntity() {
         User user = new User();
-        user.setEmail(user.getEmail());
-        user.setEmail(user.getFirstName());
-        user.setEmail(user.getLastName());
+        user.setEmail(this.getEmail());
+        user.setFirstName(this.getFirstName());
+        user.setLastName(this.getLastName());
         return user;
     }
 }

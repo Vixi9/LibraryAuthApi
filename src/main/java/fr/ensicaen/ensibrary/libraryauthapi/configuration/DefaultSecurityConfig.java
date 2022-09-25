@@ -12,7 +12,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableGlobalMethodSecurity(
-        prePostEnabled = true
+        securedEnabled = true
 )
 @EnableWebSecurity
 public class DefaultSecurityConfig extends GlobalMethodSecurityConfiguration {
@@ -22,7 +22,7 @@ public class DefaultSecurityConfig extends GlobalMethodSecurityConfiguration {
         http.authorizeRequests(authorizeRequests ->
                         authorizeRequests.anyRequest().authenticated()
                 )
-                .formLogin(withDefaults());
+                .formLogin(withDefaults()).cors().and().csrf().disable();
         return http.build();
     }
 }
