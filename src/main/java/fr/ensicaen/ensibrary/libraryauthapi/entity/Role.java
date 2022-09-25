@@ -1,15 +1,26 @@
 package fr.ensicaen.ensibrary.libraryauthapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "role-sequence-generator")
+    @GenericGenerator(
+            name = "role-sequence-generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "role_sequence"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "5"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
+            }
+    )
     @Column()
     private Long id;
 
@@ -20,15 +31,14 @@ public class Role {
     @JsonIgnoreProperties("roles")
     private Collection<User> users;
 
-    @ManyToMany
-    @JsonIgnoreProperties("roles")
-    @JoinTable(
-            name = "ROLE_PRIVILEGES",
-            joinColumns = @JoinColumn(
-                    name = "ROLE_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "PRIVILEGE_ID", referencedColumnName = "ID"))
-    private Collection<Privilege> privileges;
+    public Role() {
+        users = new ArrayList<>();
+    }
+
+    public Role(String name) {
+        this();
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -52,13 +62,5 @@ public class Role {
 
     public void setUsers(Collection<User> users) {
         this.users = users;
-    }
-
-    public Collection<Privilege> getPrivileges() {
-        return privileges;
-    }
-
-    public void setPrivileges(Collection<Privilege> privileges) {
-        this.privileges = privileges;
     }
 }

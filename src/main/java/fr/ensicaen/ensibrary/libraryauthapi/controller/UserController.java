@@ -5,9 +5,10 @@ import fr.ensicaen.ensibrary.libraryauthapi.exception.UserNotFoundException;
 import fr.ensicaen.ensibrary.libraryauthapi.model.UserDTO;
 import fr.ensicaen.ensibrary.libraryauthapi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -29,12 +30,14 @@ public class UserController {
         return principal;
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_LIBRARIAN", "ROLE_AGENT"})
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get all users")
     public Collection<User> getAll() {
         return userService.getAll();
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_LIBRARIAN", "ROLE_AGENT"})
     @GetMapping(value = "/{id}")
     @Operation(summary = "Get user by id")
     public ResponseEntity<Object> getById(@PathVariable Long id) {
@@ -45,16 +48,43 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/")
+    @Secured({"ROLE_ADMIN", "ROLE_LIBRARIAN", "ROLE_AGENT"})
+    @PostMapping(value = "/user/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostAuthorize("hasAuthority('USER_CREATE')")
     @Operation(summary = "Create new user")
-    public ResponseEntity<Object> add(@RequestBody UserDTO user) {
+    public ResponseEntity<Object> createUser(@RequestBody UserDTO user) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(userService.add(user));
+            return ResponseEntity.ok(userService.createUser(user));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_LIBRARIAN"})
+    @PostMapping(value = "/agent/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostAuthorize("hasAuthority('AGENT_CREATE')")
+    @Operation(summary = "Create new agent")
+    public ResponseEntity<Object> createAgent(@RequestBody UserDTO user) {
+        try {
+            return ResponseEntity.ok(userService.createAgent(user));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_LIBRARIAN"})
+    @PostMapping(value = "/librarian/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostAuthorize("hasAuthority('LIBRARIAN_CREATE')")
+    @Operation(summary = "Create new librarian")
+    public ResponseEntity<Object> createLibrarian(@RequestBody UserDTO user) {
+        try {
+            return ResponseEntity.ok(userService.createLibrarian(user));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_LIBRARIAN"})
     @PutMapping(value = "/{id}")
     @Operation(summary = "Update user by id")
     public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody UserDTO user) {
@@ -65,6 +95,7 @@ public class UserController {
         }
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_LIBRARIAN"})
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "Delete user by id")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
