@@ -48,6 +48,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:9000")
     @Secured({"ROLE_ADMIN", "ROLE_LIBRARIAN", "ROLE_AGENT"})
     @PostMapping(value = "/user/", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PostAuthorize("hasAuthority('USER_CREATE')")
@@ -60,6 +61,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:9000")
     @Secured({"ROLE_ADMIN", "ROLE_LIBRARIAN"})
     @PostMapping(value = "/agent/", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PostAuthorize("hasAuthority('AGENT_CREATE')")
@@ -72,6 +74,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:9000")
     @Secured({"ROLE_ADMIN", "ROLE_LIBRARIAN"})
     @PostMapping(value = "/librarian/", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PostAuthorize("hasAuthority('LIBRARIAN_CREATE')")

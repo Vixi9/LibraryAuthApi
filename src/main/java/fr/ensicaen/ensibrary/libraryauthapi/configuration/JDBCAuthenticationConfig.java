@@ -12,8 +12,8 @@ import javax.sql.DataSource;
 @Configuration
 public class JDBCAuthenticationConfig {
 
-    private static final String USERS_BY_USERNAME_QUERY = "SELECT email, password, enabled FROM user WHERE email = ?";
-    private static final String AUTHORITIES_BY_USERNAME_QUERY = "SELECT u.email, r.name FROM user u JOIN user_roles ur ON u.id = ur.user_id JOIN role r ON r.id = ur.role_id WHERE email = ?";
+    private static final String USERS_BY_USERNAME_QUERY = "SELECT email, password, enabled FROM users WHERE email = ?";
+    private static final String AUTHORITIES_BY_USERNAME_QUERY = "SELECT u.email, r.name FROM users u JOIN user_roles ur ON u.id = ur.user_id JOIN role r ON r.id = ur.role_id WHERE email = ?";
     private final DataSource dataSource;
 
     public JDBCAuthenticationConfig(DataSource dataSource) {
