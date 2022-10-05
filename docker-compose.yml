@@ -15,8 +15,7 @@ services:
     volumes:
       - api-auth-db:/var/lib/mysql
 
-
-      #Authentication API
+  #Authentication API
   api-auth:
     image: libraryauthapi:latest
     container_name: api-auth
