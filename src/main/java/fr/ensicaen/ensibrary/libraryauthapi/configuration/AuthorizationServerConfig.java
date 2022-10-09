@@ -78,7 +78,7 @@ public class AuthorizationServerConfig {
     @Bean
     public ProviderSettings providerSettings() {
         return ProviderSettings.builder()
-                .issuer("http://localhost:9000/oauth2/token")
+                .issuer("http://auth-server:9000")
                 .build();
     }
 }
