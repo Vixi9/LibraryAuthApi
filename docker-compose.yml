@@ -1,4 +1,15 @@
 services:
+  #Redis
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      timeout: 20s
+      retries: 10
+
   #Database
   api-auth-db:
     image: mysql:latest
@@ -22,14 +33,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    extra_hosts:
-      - "auth-server:127.0.0.1"
     ports:
       - "9000:9000"
     volumes:
       - .m2:/root/.m2
     depends_on:
       api-auth-db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
 
 volumes:

@@ -1,7 +1,7 @@
 FROM maven:3.8.6-openjdk-11 as build
 COPY src usr/src/api-auth/src
 COPY pom.xml usr/src/api-auth
-RUN mvn -f usr/src/api-auth/pom.xml clean package
+RUN mvn -f usr/src/api-auth/pom.xml clean package -DskipTests=true
 
 FROM openjdk:11
 EXPOSE 9000
