@@ -16,6 +16,7 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping(value = "user")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
