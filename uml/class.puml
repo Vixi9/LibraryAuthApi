@@ -15,13 +15,6 @@ class Role {
     -name: String
 }
 
-class Permission {
-    -id: Long
-    -name: String
-}
-
 User -> Role: -roles: Collection<Role>
-
-Role --> Permission: -permissions: Collection<Permission>
 
 @enduml
