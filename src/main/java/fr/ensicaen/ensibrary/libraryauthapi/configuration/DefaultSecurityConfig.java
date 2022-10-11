@@ -22,7 +22,7 @@ public class DefaultSecurityConfig extends GlobalMethodSecurityConfiguration {
         http.authorizeRequests(authorizeRequests ->
                         authorizeRequests.anyRequest().authenticated()
                 )
-                .formLogin(withDefaults()).cors().and().csrf();
+                .formLogin(withDefaults()).cors().and().csrf().disable();
         return http.build();
     }
 }
