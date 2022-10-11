@@ -29,8 +29,6 @@ services:
     depends_on:
       api-auth-db:
         condition: service_healthy
-      redis:
-        condition: service_healthy
 
 volumes:
   api-auth-db:
