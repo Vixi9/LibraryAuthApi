@@ -1,15 +1,4 @@
 services:
-  #Redis
-  redis:
-    image: redis:latest
-    container_name: redis
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
-      timeout: 20s
-      retries: 10
-
   #Database
   api-auth-db:
     image: mysql:latest
